@@ -7,7 +7,6 @@ import { fetchData } from "./api";
 function* requestApiData(action) {
   try {
     const data = yield call(fetchData);
-    console.log(`fetching data:`, data);
     yield put(actions.receiveApiData(data));
   } catch (e) {
     console.log(e);

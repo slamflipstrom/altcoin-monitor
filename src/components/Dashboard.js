@@ -15,32 +15,32 @@ class DashboardComponent extends Component {
 
   componentDidMount() {
     this.requestApiData();
+    this.interval = setInterval(() => this.setState({ time: Date.now() }), 60000);
   }
 
-  data = (x, i) => (
-    <div key={x.id}>
-      <h1>{x.id}</h1>
-      <h1>{x.displayName}</h1>
-      <h1>{x.btcPrice}</h1>
-    </div>
-  );
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
 
   render() {
-    console.log("exchangeData:", this.props.exchangeData);
-    const { excData = [] } = this.props.exchangeData;
-    // return excData.length ? <h1>{excData.map(this.data)}</h1> : <h1>Loading... </h1>;
-    return (
-      <PriceCardComponent
-        displayName={this.props.exchangeData.display_name}
-        id={this.props.exchangeData.id}
-        btcPrice={this.props.exchangeData.btcPrice}
-      />
+    const excData = this.props.exchangeData;
+    console.log("exchangeData:", excData);
+    return Object.keys(excData).length ? (
+      <div>
+        <PriceCardComponent
+          displayName={this.props.exchangeData.display_name}
+          id={this.props.exchangeData.id}
+          btcPrice={this.props.exchangeData.btcPrice}
+        />
+        <h1>{this.interval}</h1>
+      </div>
+    ) : (
+      <h1>Loading... </h1>
     );
   }
 }
 
 const mapStateToProps = state => {
-  console.log("mstp state:", state);
   return {
     exchangeData: state.exchangeData
   };
