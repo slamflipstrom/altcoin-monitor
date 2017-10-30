@@ -1,22 +1,26 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-// import Api from "...";
+import { call, put, takeEvery } from "redux-saga/effects";
 
-// worker Saga: will be fired on USER_FETCH_REQUESTED actions
-function* fetchUser(action) {
+import * as actions from "./actions/actions";
+import { fetchData } from "./api";
+
+// worker Saga: will be fired on REQUEST_API_DATA actions
+function* requestApiData(action) {
   try {
-    const user = yield call(Api.fetchUser, action.payload.userId);
-    yield put({ type: "USER_FETCH_SUCCEEDED", user: user });
+    const data = yield call(fetchData);
+    console.log(`fetching data:`, data);
+    yield put(actions.receiveApiData(data));
   } catch (e) {
-    yield put({ type: "USER_FETCH_FAILED", message: e.message });
+    console.log(e);
+    // yield error message
   }
 }
 
 /*
-  Starts fetchUser on each dispatched `USER_FETCH_REQUESTED` action.
-  Allows concurrent fetches of user.
+  Starts fetchData on each dispatched `REQUEST_API_DATA` action.
+  Allows concurrent fetches of exchange data.
 */
 function* mySaga() {
-  yield takeEvery("USER_FETCH_REQUESTED", fetchUser);
+  yield takeEvery(actions.REQUEST_API_DATA, requestApiData);
 }
 
 export default mySaga;

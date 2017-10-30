@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-import exchange from "./exchange";
+import exchangeData from "./exchangeData";
 
 const rootReducer = combineReducers({
-  exchange
+  exchangeData
 });
 
 export default rootReducer;

@@ -3,33 +3,52 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import * as actions from "../actions/actions";
+import { requestApiData } from "../actions/actions";
 
 import PriceCardComponent from "./PriceCard";
 
 class DashboardComponent extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.requestApiData = props.actions.requestApiData.bind(this);
   }
 
   componentDidMount() {
-    this.props.requestApiData();
+    this.requestApiData();
   }
 
+  data = (x, i) => (
+    <div key={x.id}>
+      <h1>{x.id}</h1>
+      <h1>{x.displayName}</h1>
+      <h1>{x.btcPrice}</h1>
+    </div>
+  );
+
   render() {
-    return <PriceCardComponent />;
+    console.log("exchangeData:", this.props.exchangeData);
+    const { excData = [] } = this.props.exchangeData;
+    // return excData.length ? <h1>{excData.map(this.data)}</h1> : <h1>Loading... </h1>;
+    return (
+      <PriceCardComponent
+        displayName={this.props.exchangeData.display_name}
+        id={this.props.exchangeData.id}
+        btcPrice={this.props.exchangeData.btcPrice}
+      />
+    );
   }
 }
 
 const mapStateToProps = state => {
+  console.log("mstp state:", state);
   return {
-    exchange: state.exchange
+    exchangeData: state.exchangeData
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    action: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators({ requestApiData }, dispatch)
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardComponent);
