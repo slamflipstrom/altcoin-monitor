@@ -3,18 +3,26 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { requestCoincapAPIData } from "../actions/actions";
+import {
+  requestCoincapAPIData,
+  requestPoloniexAPIData,
+  requestLivecoinAPIData
+} from "../actions/actions";
 
-import PriceCardComponent from "./PriceCard";
+import ExchangeComponent from "./Exchange";
 
 class DashboardComponent extends Component {
   constructor(props) {
     super(props);
     this.requestCoincapAPIData = props.actions.requestCoincapAPIData.bind(this);
+    this.requestPoloniexAPIData = props.actions.requestPoloniexAPIData.bind(this);
+    this.requestLivecoinAPIData = props.actions.requestLivecoinAPIData.bind(this);
   }
 
   componentDidMount() {
     this.requestCoincapAPIData();
+    this.requestPoloniexAPIData();
+    this.requestLivecoinAPIData();
     //consider moving to Redux
     this.interval = setInterval(() => this.setState({ time: Date.now() }), 60000);
   }
@@ -24,26 +32,18 @@ class DashboardComponent extends Component {
   }
 
   render() {
-    const { coincap } = this.props.exchangeData;
-    return coincap ? (
+    const { coincap, poloniex, livecoin } = this.props.exchangeData;
+    return coincap && poloniex ? (
       <div>
-        <PriceCardComponent
-          displayName={coincap.ethData.display_name}
-          id={coincap.ethData.id}
-          btcPrice={coincap.ethData.rice_btc}
-          usdPrice={coincap.ethData.price}
+        <ExchangeComponent
+          ethData={coincap.ethData}
+          ltcData={coincap.ltcData}
+          dashData={coincap.dashData}
         />
-        <PriceCardComponent
-          displayName={coincap.ltcData.display_name}
-          id={coincap.ltcData.id}
-          btcPrice={coincap.ltcData.price_btc}
-          usdPrice={coincap.ltcData.price}
-        />
-        <PriceCardComponent
-          displayName={coincap.dashData.display_name}
-          id={coincap.dashData.id}
-          btcPrice={coincap.dashData.price_btc}
-          usdPrice={coincap.dashData.price}
+        <ExchangeComponent
+          ethData={poloniex.ethData}
+          ltcData={poloniex.ltcData}
+          dashData={poloniex.dashData}
         />
       </div>
     ) : (
@@ -60,7 +60,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators({ requestCoincapAPIData }, dispatch)
+    actions: bindActionCreators(
+      { requestCoincapAPIData, requestPoloniexAPIData, requestLivecoinAPIData },
+      dispatch
+    )
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardComponent);
