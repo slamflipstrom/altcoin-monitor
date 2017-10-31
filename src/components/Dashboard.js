@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 
 import {
   requestCoincapAPIData,
-  requestPoloniexAPIData,
-  requestLivecoinAPIData
+  requestExmoAPIData,
+  requestBleutradeAPIData
 } from "../actions/actions";
 
 import ExchangeComponent from "./Exchange";
@@ -15,14 +15,14 @@ class DashboardComponent extends Component {
   constructor(props) {
     super(props);
     this.requestCoincapAPIData = props.actions.requestCoincapAPIData.bind(this);
-    this.requestPoloniexAPIData = props.actions.requestPoloniexAPIData.bind(this);
-    this.requestLivecoinAPIData = props.actions.requestLivecoinAPIData.bind(this);
+    this.requestExmoAPIData = props.actions.requestExmoAPIData.bind(this);
+    this.requestBleutradeAPIData = props.actions.requestBleutradeAPIData.bind(this);
   }
 
   componentDidMount() {
     this.requestCoincapAPIData();
-    this.requestPoloniexAPIData();
-    this.requestLivecoinAPIData();
+    this.requestExmoAPIData();
+    this.requestBleutradeAPIData();
     //consider moving to Redux
     this.interval = setInterval(() => this.setState({ time: Date.now() }), 60000);
   }
@@ -32,8 +32,8 @@ class DashboardComponent extends Component {
   }
 
   render() {
-    const { coincap, poloniex, livecoin } = this.props.exchangeData;
-    return coincap && poloniex ? (
+    const { coincap, exmo, bleutrade } = this.props.exchangeData;
+    return coincap && exmo && bleutrade ? (
       <div>
         <ExchangeComponent
           ethData={coincap.ethData}
@@ -41,9 +41,14 @@ class DashboardComponent extends Component {
           dashData={coincap.dashData}
         />
         <ExchangeComponent
-          ethData={poloniex.ethData}
-          ltcData={poloniex.ltcData}
-          dashData={poloniex.dashData}
+          ethData={exmo.ethData}
+          ltcData={exmo.ltcData}
+          dashData={exmo.dashData}
+        />
+        <ExchangeComponent
+          ethData={bleutrade.ethData}
+          ltcData={bleutrade.ltcData}
+          dashData={bleutrade.dashData}
         />
       </div>
     ) : (
@@ -61,7 +66,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
-      { requestCoincapAPIData, requestPoloniexAPIData, requestLivecoinAPIData },
+      { requestCoincapAPIData, requestExmoAPIData, requestBleutradeAPIData },
       dispatch
     )
   };

@@ -28,12 +28,12 @@ export function* coincapSaga() {
   yield takeEvery(actions.REQUEST_COINCAP_API_DATA, requestCoincapAPIData);
 }
 
-//POLONIEX
-function* requestPoloniexAPIData(action) {
+//EXMO
+function* requestExmoAPIData(action) {
   try {
     const data = yield call(fetchData, "https://api.exmo.com/v1/ticker/");
     yield put(
-      actions.receivePoloniexAPIData({
+      actions.receiveExmoAPIData({
         ethData: data.ETH_BTC,
         ltcData: data.LTC_BTC,
         dashData: data.DASH_BTC
@@ -41,35 +41,35 @@ function* requestPoloniexAPIData(action) {
     );
   } catch (error) {
     console.log(error);
-    yield put({ type: actions.POLONIEX_REQUEST_FAILURE, error });
+    yield put({ type: actions.EXMO_REQUEST_FAILURE, error });
   }
 }
 
-export function* poloniexSaga() {
-  yield takeEvery(actions.REQUEST_POLONIEX_API_DATA, requestPoloniexAPIData);
+export function* exmoSaga() {
+  yield takeEvery(actions.REQUEST_EXMO_API_DATA, requestExmoAPIData);
 }
 
-//LIVECOIN
-function* requestLivecoinAPIData(action) {
+//Bluetrade
+function* requestBleutradeAPIData(action) {
   try {
     const [ethData, ltcData, dashData] = yield all([
-      call(fetchData, "https://cex.io/api/last_price/ETH/USD"),
-      call(fetchData, "https://cex.io/api/last_price/LTC/USD"),
-      call(fetchData, "https://cex.io/api/last_price/DASH/USD")
+      call(fetchData, "https://bleutrade.com/api/v2/public/getticker?market=ETH_BTC"),
+      call(fetchData, "https://bleutrade.com/api/v2/public/getticker?market=LTC_BTC"),
+      call(fetchData, "https://bleutrade.com/api/v2/public/getticker?market=DASH_BTC")
     ]);
     yield put(
-      actions.receiveLivecoinAPIData({
-        ethData,
-        ltcData,
-        dashData
+      actions.receiveBleutradeAPIData({
+        ethData: ethData.result[0],
+        ltcData: ltcData.result[0],
+        dashData: dashData.result[0]
       })
     );
   } catch (error) {
     console.log(error);
-    yield put({ type: actions.LIVECOIN_REQUEST_FAILURE, error });
+    yield put({ type: actions.BLEUTRADE_REQUEST_FAILURE, error });
   }
 }
 
-export function* livecoinSaga() {
-  yield takeEvery(actions.REQUEST_LIVECOIN_API_DATA, requestLivecoinAPIData);
+export function* bleutradeSaga() {
+  yield takeEvery(actions.REQUEST_BLEUTRADE_API_DATA, requestBleutradeAPIData);
 }

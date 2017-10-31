@@ -34,3 +34,15 @@
 .price-card {
   border-bottom: 3px solid;
 }
+
+.ETH {
+  background-color: springgreen;
+}
+
+.LTC {
+  background-color: slateblue;
+}
+
+.DASH {
+  background-color: salmon;
+}
