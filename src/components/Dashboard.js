@@ -3,18 +3,19 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { requestApiData } from "../actions/actions";
+import { requestCoincapAPIData } from "../actions/actions";
 
 import PriceCardComponent from "./PriceCard";
 
 class DashboardComponent extends Component {
   constructor(props) {
     super(props);
-    this.requestApiData = props.actions.requestApiData.bind(this);
+    this.requestCoincapAPIData = props.actions.requestCoincapAPIData.bind(this);
   }
 
   componentDidMount() {
-    this.requestApiData();
+    this.requestCoincapAPIData();
+    //consider moving to Redux
     this.interval = setInterval(() => this.setState({ time: Date.now() }), 60000);
   }
 
@@ -23,19 +24,30 @@ class DashboardComponent extends Component {
   }
 
   render() {
-    const excData = this.props.exchangeData;
-    console.log("exchangeData:", excData);
-    return Object.keys(excData).length ? (
+    const { coincap } = this.props.exchangeData;
+    return coincap ? (
       <div>
         <PriceCardComponent
-          displayName={this.props.exchangeData.display_name}
-          id={this.props.exchangeData.id}
-          btcPrice={this.props.exchangeData.btcPrice}
+          displayName={coincap.ethData.display_name}
+          id={coincap.ethData.id}
+          btcPrice={coincap.ethData.rice_btc}
+          usdPrice={coincap.ethData.price}
         />
-        <h1>{this.interval}</h1>
+        <PriceCardComponent
+          displayName={coincap.ltcData.display_name}
+          id={coincap.ltcData.id}
+          btcPrice={coincap.ltcData.price_btc}
+          usdPrice={coincap.ltcData.price}
+        />
+        <PriceCardComponent
+          displayName={coincap.dashData.display_name}
+          id={coincap.dashData.id}
+          btcPrice={coincap.dashData.price_btc}
+          usdPrice={coincap.dashData.price}
+        />
       </div>
     ) : (
-      <h1>Loading... </h1>
+      <h1>Loading...</h1>
     );
   }
 }
@@ -48,7 +60,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators({ requestApiData }, dispatch)
+    actions: bindActionCreators({ requestCoincapAPIData }, dispatch)
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardComponent);

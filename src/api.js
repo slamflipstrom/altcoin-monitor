@@ -1,6 +1,6 @@
-export const fetchData = async () => {
+export const fetchData = async url => {
   try {
-    const response = await fetch("http://coincap.io/page/ETH");
+    const response = await fetch(url);
     const data = await response.json();
     return data;
   } catch (e) {

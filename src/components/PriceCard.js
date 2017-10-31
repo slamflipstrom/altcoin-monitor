@@ -7,6 +7,7 @@ class PriceCardComponent extends Component {
         <h1>Display Name: {this.props.displayName}</h1>
         <h1>ID: {this.props.id}</h1>
         <h1>Bitcoin Price: {this.props.btcPrice}</h1>
+        <h1>Price in USD: ${this.props.usdPrice}</h1>
       </div>
     );
   }
