@@ -55,10 +55,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-ReportComponent.propTypes = {
-  ethData: PropTypes.string,
-  ltcData: PropTypes.string,
-  dashData: PropTypes.string
-};
-
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReportComponent));
