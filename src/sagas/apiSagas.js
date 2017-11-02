@@ -3,8 +3,14 @@ import { all, call, put, takeEvery } from "redux-saga/effects";
 import * as actions from "../actions/actions";
 import { fetchData } from "../api";
 
+function formatPrice(price) {
+  return Number(price)
+    .toFixed(5)
+    .toString();
+}
+
 //COINCAP
-function* requestCoincapAPIData(action) {
+function* requestCoincapAPIData() {
   try {
     const [ethData, ltcData, dashData] = yield all([
       call(fetchData, "http://coincap.io/page/ETH"),
@@ -13,44 +19,38 @@ function* requestCoincapAPIData(action) {
     ]);
     yield put(
       actions.receiveCoincapAPIData({
-        ethData,
-        ltcData,
-        dashData
+        ethData: formatPrice(ethData.price_btc),
+        ltcData: formatPrice(ltcData.price_btc),
+        dashData: formatPrice(dashData.price_btc)
       })
     );
+    return { ethData, ltcData, dashData };
   } catch (error) {
     console.log(error);
     yield put({ type: actions.COINCAP_REQUEST_FAILURE, error });
   }
 }
 
-export function* coincapSaga() {
-  yield takeEvery(actions.REQUEST_COINCAP_API_DATA, requestCoincapAPIData);
-}
-
 //EXMO
-function* requestExmoAPIData(action) {
+function* requestExmoAPIData() {
   try {
     const data = yield call(fetchData, "https://api.exmo.com/v1/ticker/");
     yield put(
       actions.receiveExmoAPIData({
-        ethData: data.ETH_BTC,
-        ltcData: data.LTC_BTC,
-        dashData: data.DASH_BTC
+        ethData: formatPrice(data.ETH_BTC.buy_price),
+        ltcData: formatPrice(data.LTC_BTC.buy_price),
+        dashData: formatPrice(data.DASH_BTC.buy_price)
       })
     );
+    return data;
   } catch (error) {
     console.log(error);
     yield put({ type: actions.EXMO_REQUEST_FAILURE, error });
   }
 }
 
-export function* exmoSaga() {
-  yield takeEvery(actions.REQUEST_EXMO_API_DATA, requestExmoAPIData);
-}
-
 //Bluetrade
-function* requestBleutradeAPIData(action) {
+function* requestBleutradeAPIData() {
   try {
     const [ethData, ltcData, dashData] = yield all([
       call(fetchData, "https://bleutrade.com/api/v2/public/getticker?market=ETH_BTC"),
@@ -59,17 +59,61 @@ function* requestBleutradeAPIData(action) {
     ]);
     yield put(
       actions.receiveBleutradeAPIData({
-        ethData: ethData.result[0],
-        ltcData: ltcData.result[0],
-        dashData: dashData.result[0]
+        ethData: formatPrice(ethData.result[0].Last),
+        ltcData: formatPrice(ltcData.result[0].Last),
+        dashData: formatPrice(dashData.result[0].Last)
       })
     );
+    return { ethData, ltcData, dashData };
   } catch (error) {
     console.log(error);
     yield put({ type: actions.BLEUTRADE_REQUEST_FAILURE, error });
   }
 }
 
+function* requestAllAPIData() {
+  try {
+    const [coincapData, exmoData, bleutradeData] = yield all([
+      call(requestCoincapAPIData),
+      call(requestExmoAPIData),
+      call(requestBleutradeAPIData)
+    ]);
+    yield put(
+      actions.receiveAllAPIData({
+        ethValues: {
+          coincap: coincapData.ethData.price_btc,
+          exmo: exmoData.ETH_BTC.buy_price,
+          bleutrade: bleutradeData.ethData.result[0].Last
+        },
+        ltcValues: {
+          coincap: coincapData.ltcData.price_btc,
+          exmo: exmoData.LTC_BTC.buy_price,
+          bleutrade: bleutradeData.ltcData.result[0].Last
+        },
+        dashValues: {
+          coincap: coincapData.dashData.price_btc,
+          exmo: exmoData.DASH_BTC.buy_price,
+          bleutrade: bleutradeData.dashData.result[0].Last
+        }
+      })
+    );
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* coincapSaga() {
+  yield takeEvery(actions.REQUEST_COINCAP_API_DATA, requestCoincapAPIData);
+}
+
+export function* exmoSaga() {
+  yield takeEvery(actions.REQUEST_EXMO_API_DATA, requestExmoAPIData);
+}
+
 export function* bleutradeSaga() {
   yield takeEvery(actions.REQUEST_BLEUTRADE_API_DATA, requestBleutradeAPIData);
+}
+
+export function* apiDataSaga() {
+  yield takeEvery(actions.REQUEST_ALL_API_DATA, requestAllAPIData);
 }

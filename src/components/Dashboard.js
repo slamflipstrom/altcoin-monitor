@@ -3,27 +3,14 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import {
-  requestCoincapAPIData,
-  requestExmoAPIData,
-  requestBleutradeAPIData
-} from "../actions/actions";
+import * as actions from "../actions/actions";
 
 import ExchangeComponent from "./Exchange";
 
 class DashboardComponent extends Component {
-  constructor(props) {
-    super(props);
-    this.requestCoincapAPIData = props.actions.requestCoincapAPIData.bind(this);
-    this.requestExmoAPIData = props.actions.requestExmoAPIData.bind(this);
-    this.requestBleutradeAPIData = props.actions.requestBleutradeAPIData.bind(this);
-  }
-
   componentDidMount() {
-    this.requestCoincapAPIData();
-    this.requestExmoAPIData();
-    this.requestBleutradeAPIData();
-    //consider moving to Redux
+    const { coincap, exmo, bleutrade } = this.props.exchangeData;
+    this.props.actions.requestAllAPIData();
     this.interval = setInterval(() => this.setState({ time: Date.now() }), 60000);
   }
 
@@ -36,39 +23,45 @@ class DashboardComponent extends Component {
     return coincap && exmo && bleutrade ? (
       <div>
         <ExchangeComponent
+          id="coincapExchange"
+          exchangeName="Coincap"
           ethData={coincap.ethData}
           ltcData={coincap.ltcData}
           dashData={coincap.dashData}
         />
         <ExchangeComponent
+          id="exmoExchange"
+          exchangeName="Exmo"
           ethData={exmo.ethData}
           ltcData={exmo.ltcData}
           dashData={exmo.dashData}
         />
         <ExchangeComponent
+          id="bleutradeExchange"
+          exchangeName="Bleutrade"
           ethData={bleutrade.ethData}
           ltcData={bleutrade.ltcData}
           dashData={bleutrade.dashData}
         />
       </div>
     ) : (
-      <h1>Loading...</h1>
+      <div className="loading">
+        <h1>Loading...</h1>
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    exchangeData: state.exchangeData
+    exchangeData: state.exchangeData,
+    ethValues: state.ethValues
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(
-      { requestCoincapAPIData, requestExmoAPIData, requestBleutradeAPIData },
-      dispatch
-    )
+    actions: bindActionCreators(actions, dispatch)
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardComponent);
