@@ -18,6 +18,16 @@
   font-size: 0.9em;
 }
 
+.link {
+  position: absolute;
+}
+
+.linkToReport {
+  position: absolute;
+  right: 8px;
+  top: 112px;
+}
+
 .loading {
   background-color: rgb(241, 241, 241);
   height: 150px;
@@ -39,6 +49,50 @@
 }
 
 .exchangeTitle {
-  font-size: 2.5rem;
   border-bottom: 2px solid;
+  font-size: 2.5rem;
+}
+
+.reportTable {
+  display: inline-block;
+  margin: 0 10px 0 10px;
+  width: 31%;
+}
+
+.currencyName {
+  font-size: 24px;
+  font-weight: 800;
+  text-align: center;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+thead span {
+  display: block;
+  border-bottom: 1px solid black;
+}
+
+tr {
+  border-bottom: 1px solid black;
+  height: 40px;
+}
+
+.currencyRow {
+  border: none;
+}
+
+td {
+  padding: 3px;
+}
+
+.dateCell {
+  font-size: 20px;
+  text-align: center;
+}
+
+.priceCell {
+  font-size: 20px;
+  text-align: center;
 }

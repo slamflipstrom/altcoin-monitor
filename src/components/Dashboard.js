@@ -1,15 +1,14 @@
 import React, { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import * as actions from "../actions/actions";
-
 import ExchangeComponent from "./Exchange";
 
 class DashboardComponent extends Component {
   componentDidMount() {
-    const { coincap, exmo, bleutrade } = this.props.exchangeData;
     this.props.actions.requestAllAPIData();
     this.interval = setInterval(() => this.setState({ time: Date.now() }), 60000);
   }
@@ -22,6 +21,11 @@ class DashboardComponent extends Component {
     const { coincap, exmo, bleutrade } = this.props.exchangeData;
     return coincap && exmo && bleutrade ? (
       <div>
+        <div>
+          <Link className="linkToReport" to={"/report"}>
+            30 Minute Report
+          </Link>
+        </div>
         <ExchangeComponent
           id="coincapExchange"
           exchangeName="Coincap"
@@ -64,4 +68,6 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(actions, dispatch)
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardComponent);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(DashboardComponent)
+);
