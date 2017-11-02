@@ -1,6 +1,7 @@
-import { call } from "redux-saga/effects";
+import { all, fork } from "redux-saga/effects";
 import { apiDataSaga } from "./apiSagas";
+import { historicalDataSaga } from "./historicalData";
 
 export default function* rootSaga() {
-  yield call(apiDataSaga);
+  yield all([fork(apiDataSaga), fork(historicalDataSaga)]);
 }

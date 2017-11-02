@@ -7,9 +7,12 @@ export const EXMO_REQUEST_FAILURE = "EXMO_REQUEST_FAILURE";
 export const REQUEST_BLEUTRADE_API_DATA = "REQUEST_BLEUTRADE_API_DATA";
 export const RECEIVE_BLEUTRADE_API_DATA = "RECEIVE_BLEUTRADE_API_DATA";
 export const BLEUTRADE_REQUEST_FAILURE = "BLEUTRADE_REQUEST_FAILURE";
+export const HISTORICAL_DATA_REQUEST_FAILURE = "HISTORICAL_DATA_REQUEST_FAILURE";
 
 export const REQUEST_ALL_API_DATA = "REQUEST_ALL_API_DATA";
 export const RECEIVE_ALL_API_DATA = "RECEIVE_ALL_API_DATA";
+export const REQUEST_HISTORICAL_DATA = "REQUEST_HISTORICAL_DATA";
+export const RECEIVE_HISTORICAL_DATA = "RECEIVE_HISTORICAL_DATA";
 
 export const requestCoincapAPIData = () => ({ type: REQUEST_COINCAP_API_DATA });
 export const receiveCoincapAPIData = data => ({ type: RECEIVE_COINCAP_API_DATA, data });
@@ -23,3 +26,5 @@ export const receiveBleutradeAPIData = data => ({
 
 export const requestAllAPIData = () => ({ type: REQUEST_ALL_API_DATA });
 export const receiveAllAPIData = data => ({ type: RECEIVE_ALL_API_DATA, data });
+export const requestHistoricalData = () => ({ type: REQUEST_HISTORICAL_DATA });
+export const receiveHistoricalData = data => ({ type: RECEIVE_HISTORICAL_DATA, data });
