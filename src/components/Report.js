@@ -1,28 +1,41 @@
 import React, { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import * as actions from "../actions/actions";
+import TableComponent from "./Table";
 
 class ReportComponent extends Component {
   componentDidMount() {
-    const { coincap, exmo, bleutrade } = this.props.historicalData;
     this.props.actions.requestHistoricalData();
-    this.interval = setInterval(() => this.setState({ time: Date.now() }), 60000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
   }
 
   render() {
-    const { ethData, ltcData, dashData } = this.props;
+    const { ethHistory, ltcHistory, dashHistory } = this.props.historicalData;
+    let prev30Eth = [];
+    let prev30Ltc = [];
+    let prev30Dash = [];
+    if (typeof ethHistory !== "undefined") {
+      prev30Eth = ethHistory.slice(Math.max(ethHistory.length - 30, 1));
+    }
+    if (typeof ltcHistory !== "undefined") {
+      prev30Ltc = ltcHistory.slice(Math.max(ltcHistory.length - 30, 1));
+    }
+    if (typeof dashHistory !== "undefined") {
+      prev30Dash = dashHistory.slice(Math.max(dashHistory.length - 30, 1));
+    }
 
-    return ethData && ltcData && dashData ? (
-      <div className="exchange">
-        <h1 className="exchangeTitle">{this.props.exchangeName}</h1>
+    return prev30Eth && ltcHistory && dashHistory ? (
+      <div className="report">
+        <Link className="link" to={"/"}>
+          Back
+        </Link>
+        <TableComponent name="Ethereum" id="ETH" data={prev30Eth} />
+        <TableComponent name="Litecoin" id="LTC" data={prev30Ltc} />
+        <TableComponent name="Dash" id="DASH" data={prev30Dash} />
       </div>
     ) : (
       <h1>Data not yet available</h1>
@@ -48,4 +61,4 @@ ReportComponent.propTypes = {
   dashData: PropTypes.string
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReportComponent);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReportComponent));
