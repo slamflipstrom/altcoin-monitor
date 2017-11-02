@@ -1,24 +1,29 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 import PriceCardComponent from "./PriceCard";
 
 class ExchangeComponent extends Component {
-  priceCard = {};
-
   render() {
     const { ethData, ltcData, dashData } = this.props;
-    return (
+
+    return ethData && ltcData && dashData ? (
       <div className="exchange">
-        <PriceCardComponent displayName="Ethereum" id="ETH" />
-        <PriceCardComponent displayName="Litecoin" id="LTC" />
-        <PriceCardComponent displayName="Dash" id="DASH" />
+        <h1 className="exchangeTitle">{this.props.exchangeName}</h1>
+        <PriceCardComponent displayName="Ethereum" id="ETH" btcPrice={ethData} />
+        <PriceCardComponent displayName="Litecoin" id="LTC" btcPrice={ltcData} />
+        <PriceCardComponent displayName="Dash" id="DASH" btcPrice={dashData} />
       </div>
+    ) : (
+      <h1>Data not yet available</h1>
     );
   }
 }
-// displayName="hi"
-// id={ethData.id}
-// btcPrice={ethData}
-// usdPrice={ethData}
+
+ExchangeComponent.propTypes = {
+  ethData: PropTypes.string,
+  ltcData: PropTypes.string,
+  dashData: PropTypes.string
+};
 
 export default ExchangeComponent;
