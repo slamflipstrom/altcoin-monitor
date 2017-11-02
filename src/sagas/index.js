@@ -1,4 +1,4 @@
-import { all, call, fork } from "redux-saga/effects";
+import { call } from "redux-saga/effects";
 import { apiDataSaga } from "./apiSagas";
 
 export default function* rootSaga() {

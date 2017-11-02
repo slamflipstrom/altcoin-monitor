@@ -55,7 +55,7 @@ class DashboardComponent extends Component {
 const mapStateToProps = state => {
   return {
     exchangeData: state.exchangeData,
-    ethValues: state.ethValues
+    currencyValues: state.currencyValues
   };
 };
 

@@ -9,6 +9,17 @@ function formatPrice(price) {
     .toString();
 }
 
+function formatPriceToNum(price) {
+  return Number(price);
+}
+
+function evalBestRate(object) {
+  var lowValue = Object.values(object).reduce(function(a, b, idx) {
+    return Math.min(a, b);
+  });
+  return formatPrice(lowValue);
+}
+
 //COINCAP
 function* requestCoincapAPIData() {
   try {
@@ -81,19 +92,34 @@ function* requestAllAPIData() {
     yield put(
       actions.receiveAllAPIData({
         ethValues: {
-          coincap: coincapData.ethData.price_btc,
-          exmo: exmoData.ETH_BTC.buy_price,
-          bleutrade: bleutradeData.ethData.result[0].Last
+          coincap: formatPrice(coincapData.ethData.price_btc),
+          exmo: formatPrice(exmoData.ETH_BTC.buy_price),
+          bleutrade: formatPrice(bleutradeData.ethData.result[0].Last),
+          bestRate: evalBestRate({
+            cc: formatPriceToNum(coincapData.ethData.price_btc),
+            ex: formatPriceToNum(exmoData.ETH_BTC.buy_price),
+            bt: formatPriceToNum(bleutradeData.ethData.result[0].Last)
+          })
         },
         ltcValues: {
-          coincap: coincapData.ltcData.price_btc,
-          exmo: exmoData.LTC_BTC.buy_price,
-          bleutrade: bleutradeData.ltcData.result[0].Last
+          coincap: formatPrice(coincapData.ltcData.price_btc),
+          exmo: formatPrice(exmoData.LTC_BTC.buy_price),
+          bleutrade: formatPrice(bleutradeData.ltcData.result[0].Last),
+          bestRate: evalBestRate({
+            cc: formatPriceToNum(coincapData.ltcData.price_btc),
+            ex: formatPriceToNum(exmoData.LTC_BTC.buy_price),
+            bt: formatPriceToNum(bleutradeData.ltcData.result[0].Last)
+          })
         },
         dashValues: {
-          coincap: coincapData.dashData.price_btc,
-          exmo: exmoData.DASH_BTC.buy_price,
-          bleutrade: bleutradeData.dashData.result[0].Last
+          coincap: formatPrice(coincapData.dashData.price_btc),
+          exmo: formatPrice(exmoData.DASH_BTC.buy_price),
+          bleutrade: formatPrice(bleutradeData.dashData.result[0].Last),
+          bestRate: evalBestRate({
+            cc: formatPriceToNum(coincapData.dashData.price_btc),
+            ex: formatPriceToNum(exmoData.DASH_BTC.buy_price),
+            bt: formatPriceToNum(bleutradeData.dashData.result[0].Last)
+          })
         }
       })
     );
