@@ -10,9 +10,9 @@ class ExchangeComponent extends Component {
     return ethData && ltcData && dashData ? (
       <div className="exchange">
         <h1 className="exchangeTitle">{this.props.exchangeName}</h1>
-        <PriceCardComponent displayName="Ethereum" id="ETH" btcPrice={ethData} />
-        <PriceCardComponent displayName="Litecoin" id="LTC" btcPrice={ltcData} />
-        <PriceCardComponent displayName="Dash" id="DASH" btcPrice={dashData} />
+        <PriceCardComponent displayName="Ethereum" id="ETH" btcValue={ethData} />
+        <PriceCardComponent displayName="Litecoin" id="LTC" btcValue={ltcData} />
+        <PriceCardComponent displayName="Dash" id="DASH" btcValue={dashData} />
       </div>
     ) : (
       <h1>Data not yet available</h1>

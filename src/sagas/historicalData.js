@@ -7,9 +7,9 @@ import { fetchData } from "../api";
 function* requestHistoricalData() {
   try {
     const [ethData, ltcData, dashData] = yield all([
-      call(fetchData, "http://coincap.io/history/ETH"),
-      call(fetchData, "http://coincap.io/history/LTC"),
-      call(fetchData, "http://coincap.io/history/DASH")
+      call(fetchData, "http://coincap.io/history/1day/ETH"),
+      call(fetchData, "http://coincap.io/history/1day/LTC"),
+      call(fetchData, "http://coincap.io/history/1day/DASH")
     ]);
     yield put(
       actions.receiveHistoricalData({
