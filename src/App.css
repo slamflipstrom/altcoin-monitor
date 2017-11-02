@@ -1,15 +1,11 @@
 .App {
+  background-color: rgb(64, 64, 64);
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
 .App-header {
-  background-color: #222;
-  height: 150px;
+  background-color: slateblue;
+  height: 100px;
   padding: 20px;
   color: white;
 }
@@ -19,30 +15,30 @@
 }
 
 .App-intro {
-  font-size: large;
+  font-size: 0.9em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.loading {
+  background-color: rgb(241, 241, 241);
+  height: 150px;
+}
+
+.loading > h1 {
+  margin: 0 auto;
 }
 
 .price-card {
-  border-bottom: 3px solid;
+  border-bottom: 2px solid;
+  margin: 40px 0 40px 0;
 }
 
-.ETH {
-  background-color: springgreen;
+.exchange {
+  background-color: rgb(241, 241, 241);
+  display: inline-block;
+  width: 27%;
 }
 
-.LTC {
-  background-color: slateblue;
-}
-
-.DASH {
-  background-color: salmon;
+.exchangeTitle {
+  font-size: 2.5rem;
+  border-bottom: 2px solid;
 }

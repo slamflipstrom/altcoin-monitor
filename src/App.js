@@ -8,7 +8,11 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Granny's Altcoin Monitor</h1>
+          <h3 className="App-intro">
+            Below you will find current values for Ethereum, Litecoin, and Dash with
+            values displayed relative to Bitcoin's value.
+          </h3>
         </header>
         <DashboardComponent />
       </div>
