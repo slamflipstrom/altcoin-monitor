@@ -3,11 +3,10 @@ import React, { Component } from "react";
 class PriceCardComponent extends Component {
   render() {
     return (
-      <div className="price-card">
-        <h1>Display Name: {this.props.displayName}</h1>
-        <h1>ID: {this.props.id}</h1>
-        <h1>Bitcoin Price: {this.props.btcPrice}</h1>
-        <h1>Price in USD: ${this.props.usdPrice}</h1>
+      <div className={this.props.id}>
+        <h1 className="currencyName">Name: {this.props.displayName}</h1>
+        <h1 className="currencyId">ID: {this.props.id}</h1>
+        <h1 className={this.props.id + "value"}>Value: ₿{this.props.btcPrice}</h1>
       </div>
     );
   }
