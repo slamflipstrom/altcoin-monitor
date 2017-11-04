@@ -1,5 +1,4 @@
-
-
+## Instructions:
 * Clone the repo: `git clone https://github.com/slamflipstrom/altcoin-monitor.git`
 * cd into the directory
 * run `yarn` in the terminal
