@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import * as actions from "../actions/actions";
 import ExchangeComponent from "./Exchange";
@@ -23,7 +23,7 @@ class DashboardComponent extends Component {
       <div>
         <div>
           <Link to="/report">
-            <button>30 Minute Report new</button>
+            <button className="linkToReport">30 Minute Report new</button>
           </Link>
         </div>
         <ExchangeComponent
@@ -56,6 +56,12 @@ class DashboardComponent extends Component {
   }
 }
 
+DashboardComponent.propTypes = {
+  coincap: PropTypes.string,
+  exmo: PropTypes.string,
+  bleutrade: PropTypes.string
+};
+
 const mapStateToProps = state => {
   return {
     exchangeData: state.exchangeData,
@@ -68,6 +74,4 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(actions, dispatch)
   };
 };
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(DashboardComponent)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardComponent);

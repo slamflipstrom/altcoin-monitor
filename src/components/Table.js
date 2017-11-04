@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import * as moment from "moment";
 
 class TableComponent extends Component {
@@ -44,4 +45,11 @@ class TableComponent extends Component {
     );
   }
 }
+
+TableComponent.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.array),
+  id: PropTypes.string,
+  name: PropTypes.string
+};
+
 export default TableComponent;

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class PriceCardComponent extends Component {
   render() {
@@ -11,4 +12,11 @@ class PriceCardComponent extends Component {
     );
   }
 }
+
+PriceCardComponent.propTypes = {
+  displayName: PropTypes.string,
+  id: PropTypes.string,
+  btcValue: PropTypes.string
+};
+
 export default PriceCardComponent;
