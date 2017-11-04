@@ -22,8 +22,8 @@ class DashboardComponent extends Component {
     return coincap && exmo && bleutrade ? (
       <div>
         <div>
-          <Link className="linkToReport" to={"/report"}>
-            <button>30 Minute Report</button>
+          <Link to="/report">
+            <button>30 Minute Report new</button>
           </Link>
         </div>
         <ExchangeComponent
