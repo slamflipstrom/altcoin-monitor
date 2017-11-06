@@ -26,27 +26,29 @@ class DashboardComponent extends Component {
             <button className="linkToReport">30 Minute Report new</button>
           </Link>
         </div>
-        <ExchangeComponent
-          id="coincapExchange"
-          exchangeName="Coincap"
-          ethData={coincap.ethData}
-          ltcData={coincap.ltcData}
-          dashData={coincap.dashData}
-        />
-        <ExchangeComponent
-          id="exmoExchange"
-          exchangeName="Exmo"
-          ethData={exmo.ethData}
-          ltcData={exmo.ltcData}
-          dashData={exmo.dashData}
-        />
-        <ExchangeComponent
-          id="bleutradeExchange"
-          exchangeName="Bleutrade"
-          ethData={bleutrade.ethData}
-          ltcData={bleutrade.ltcData}
-          dashData={bleutrade.dashData}
-        />
+        <div className="dash">
+          <ExchangeComponent
+            id="coincapExchange"
+            exchangeName="Coincap"
+            ethValue={coincap.ethValue}
+            ltcValue={coincap.ltcValue}
+            dashValue={coincap.dashValue}
+          />
+          <ExchangeComponent
+            id="exmoExchange"
+            exchangeName="Exmo"
+            ethValue={exmo.ethValue}
+            ltcValue={exmo.ltcValue}
+            dashValue={exmo.dashValue}
+          />
+          <ExchangeComponent
+            id="bleutradeExchange"
+            exchangeName="Bleutrade"
+            ethValue={bleutrade.ethValue}
+            ltcValue={bleutrade.ltcValue}
+            dashValue={bleutrade.dashValue}
+          />
+        </div>
       </div>
     ) : (
       <div className="loading">

@@ -5,14 +5,13 @@ import PriceCardComponent from "./PriceCard";
 
 class ExchangeComponent extends Component {
   render() {
-    const { ethData, ltcData, dashData } = this.props;
-
-    return ethData && ltcData && dashData ? (
+    const { ethValue, ltcValue, dashValue } = this.props;
+    return ethValue && ltcValue && dashValue ? (
       <div className="exchange">
         <h1 className="exchangeTitle">{this.props.exchangeName}</h1>
-        <PriceCardComponent displayName="Ethereum" id="ETH" btcValue={ethData} />
-        <PriceCardComponent displayName="Litecoin" id="LTC" btcValue={ltcData} />
-        <PriceCardComponent displayName="Dash" id="DASH" btcValue={dashData} />
+        <PriceCardComponent displayName="Ethereum" id="ETH" btcValue={ethValue} />
+        <PriceCardComponent displayName="Litecoin" id="LTC" btcValue={ltcValue} />
+        <PriceCardComponent displayName="Dash" id="DASH" btcValue={dashValue} />
       </div>
     ) : (
       <h1>Data not yet available</h1>
@@ -21,9 +20,9 @@ class ExchangeComponent extends Component {
 }
 
 ExchangeComponent.propTypes = {
-  ethData: PropTypes.string,
-  ltcData: PropTypes.string,
-  dashData: PropTypes.string
+  ethValue: PropTypes.string,
+  ltcValue: PropTypes.string,
+  dashValue: PropTypes.string
 };
 
 export default ExchangeComponent;

@@ -29,8 +29,8 @@ class ReportComponent extends Component {
 
     return prev30Eth && ltcHistory && dashHistory ? (
       <div className="report">
-        <Link className="link" to={"/"}>
-          Back
+        <Link to="/">
+          <button className="linkHome">Home</button>
         </Link>
         <TableComponent name="Ethereum" id="ETH" data={prev30Eth} />
         <TableComponent name="Litecoin" id="LTC" data={prev30Ltc} />

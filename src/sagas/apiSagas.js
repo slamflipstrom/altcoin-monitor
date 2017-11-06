@@ -30,9 +30,9 @@ function* requestCoincapAPIData() {
     ]);
     yield put(
       actions.receiveCoincapAPIData({
-        ethData: formatPrice(ethData.price_btc),
-        ltcData: formatPrice(ltcData.price_btc),
-        dashData: formatPrice(dashData.price_btc)
+        ethValue: formatPrice(ethData.price_btc),
+        ltcValue: formatPrice(ltcData.price_btc),
+        dashValue: formatPrice(dashData.price_btc)
       })
     );
     return { ethData, ltcData, dashData };
@@ -48,9 +48,9 @@ function* requestExmoAPIData() {
     const data = yield call(fetchData, "https://api.exmo.com/v1/ticker/");
     yield put(
       actions.receiveExmoAPIData({
-        ethData: formatPrice(data.ETH_BTC.buy_price),
-        ltcData: formatPrice(data.LTC_BTC.buy_price),
-        dashData: formatPrice(data.DASH_BTC.buy_price)
+        ethValue: formatPrice(data.ETH_BTC.buy_price),
+        ltcValue: formatPrice(data.LTC_BTC.buy_price),
+        dashValue: formatPrice(data.DASH_BTC.buy_price)
       })
     );
     return data;
@@ -70,9 +70,9 @@ function* requestBleutradeAPIData() {
     ]);
     yield put(
       actions.receiveBleutradeAPIData({
-        ethData: formatPrice(ethData.result[0].Last),
-        ltcData: formatPrice(ltcData.result[0].Last),
-        dashData: formatPrice(dashData.result[0].Last)
+        ethValue: formatPrice(ethData.result[0].Last),
+        ltcValue: formatPrice(ltcData.result[0].Last),
+        dashValue: formatPrice(dashData.result[0].Last)
       })
     );
     return { ethData, ltcData, dashData };
