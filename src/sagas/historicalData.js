@@ -3,6 +3,17 @@ import { all, call, put, takeEvery } from "redux-saga/effects";
 import * as actions from "../actions/actions";
 import { fetchData } from "../api";
 
+function evalBestRate(array) {
+  let lowValue = array
+    .map(dataPoint => {
+      return dataPoint[1];
+    })
+    .reduce(function(a, b, idx) {
+      return Math.min(a, b);
+    });
+  return lowValue;
+}
+
 //HISTORICAL DATA from COINCAP
 function* requestHistoricalData() {
   try {
@@ -15,7 +26,10 @@ function* requestHistoricalData() {
       actions.receiveHistoricalData({
         ethData: ethData.price,
         ltcData: ltcData.price,
-        dashData: dashData.price
+        dashData: dashData.price,
+        bestEth: evalBestRate(ethData.price),
+        bestLtc: evalBestRate(ltcData.price),
+        bestDash: evalBestRate(dashData.price)
       })
     );
   } catch (error) {

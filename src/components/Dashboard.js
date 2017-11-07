@@ -23,7 +23,7 @@ class DashboardComponent extends Component {
       <div>
         <div>
           <Link to="/report">
-            <button className="linkToReport">30 Minute Report new</button>
+            <button className="linkToReport">30 Minute Report</button>
           </Link>
         </div>
         <div className="dash">
