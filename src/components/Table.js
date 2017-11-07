@@ -21,6 +21,12 @@ class TableComponent extends Component {
     return btcPrice.toFixed(5);
   }
 
+  findBestValue(price) {
+    if (price === this.props.bestPrice) {
+      return "bestValue";
+    }
+  }
+
   render() {
     let formattedData = this.formatData();
     return (
@@ -39,7 +45,7 @@ class TableComponent extends Component {
           </thead>
           <tbody>
             {formattedData.map(item => (
-              <tr key={item}>
+              <tr key={item} className={this.findBestValue(item[1], this.props.name)}>
                 <td className="dateCell">{item[0]}</td>
                 <td className="priceCell">₿ {this.priceInBtc(item[1])}</td>
               </tr>

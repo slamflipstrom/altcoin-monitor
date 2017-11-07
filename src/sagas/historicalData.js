@@ -3,8 +3,13 @@ import { all, call, put, takeEvery } from "redux-saga/effects";
 import * as actions from "../actions/actions";
 import { fetchData } from "../api";
 
+function sliceRecentResults(priceArray) {
+  return priceArray.slice(Math.max(priceArray.length - 30, 1));
+}
+
 function evalBestRate(array) {
-  let lowValue = array
+  let slicedResults = sliceRecentResults(array);
+  let lowValue = slicedResults
     .map(dataPoint => {
       return dataPoint[1];
     })
@@ -25,9 +30,9 @@ function* requestHistoricalData() {
     ]);
     yield put(
       actions.receiveHistoricalData({
-        ethData: ethData.price,
-        ltcData: ltcData.price,
-        dashData: dashData.price,
+        ethData: sliceRecentResults(ethData.price),
+        ltcData: sliceRecentResults(ltcData.price),
+        dashData: sliceRecentResults(dashData.price),
         btcPrice: btcRate.price,
         bestEth: evalBestRate(ethData.price),
         bestLtc: evalBestRate(ltcData.price),

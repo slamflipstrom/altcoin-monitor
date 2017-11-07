@@ -13,28 +13,42 @@ class ReportComponent extends Component {
   }
 
   render() {
-    const { ethHistory, ltcHistory, dashHistory, btcPrice } = this.props.historicalData;
-    let prev30Eth = [];
-    let prev30Ltc = [];
-    let prev30Dash = [];
-    if (typeof ethHistory !== "undefined") {
-      prev30Eth = ethHistory.slice(Math.max(ethHistory.length - 30, 1));
-    }
-    if (typeof ltcHistory !== "undefined") {
-      prev30Ltc = ltcHistory.slice(Math.max(ltcHistory.length - 30, 1));
-    }
-    if (typeof dashHistory !== "undefined") {
-      prev30Dash = dashHistory.slice(Math.max(dashHistory.length - 30, 1));
-    }
+    const {
+      ethHistory,
+      ltcHistory,
+      dashHistory,
+      bestEth,
+      bestLtc,
+      bestDash,
+      btcPrice
+    } = this.props.historicalData;
 
-    return prev30Eth && ltcHistory && dashHistory ? (
+    return ethHistory && ltcHistory && dashHistory ? (
       <div className="report">
         <Link to="/">
-          <button className="linkHome">Home</button>
+          <button className="linkHome">Back to Dashboard</button>
         </Link>
-        <TableComponent name="Ethereum" id="ETH" data={prev30Eth} btcPrice={btcPrice} />
-        <TableComponent name="Litecoin" id="LTC" data={prev30Ltc} btcPrice={btcPrice} />
-        <TableComponent name="Dash" id="DASH" data={prev30Dash} btcPrice={btcPrice} />
+        <TableComponent
+          name="Ethereum"
+          id="ETH"
+          data={ethHistory}
+          bestPrice={bestEth}
+          btcPrice={btcPrice}
+        />
+        <TableComponent
+          name="Litecoin"
+          id="LTC"
+          data={ltcHistory}
+          bestPrice={bestLtc}
+          btcPrice={btcPrice}
+        />
+        <TableComponent
+          name="Dash"
+          id="DASH"
+          data={dashHistory}
+          bestPrice={bestDash}
+          btcPrice={btcPrice}
+        />
       </div>
     ) : (
       <h1>Data not yet available</h1>
