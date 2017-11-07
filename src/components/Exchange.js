@@ -14,7 +14,7 @@ class ExchangeComponent extends Component {
         <PriceCardComponent displayName="Dash" id="DASH" btcValue={dashValue} />
       </div>
     ) : (
-      <h1>Data not yet available</h1>
+      <h1>Data Loading...</h1>
     );
   }
 }

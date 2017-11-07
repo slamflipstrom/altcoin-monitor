@@ -24,34 +24,40 @@ class ReportComponent extends Component {
     } = this.props.historicalData;
 
     return ethHistory && ltcHistory && dashHistory ? (
-      <div className="report">
+      <div className="reportPage">
         <Link to="/">
           <button className="linkHome">Back to Dashboard</button>
         </Link>
-        <TableComponent
-          name="Ethereum"
-          id="ETH"
-          data={ethHistory}
-          bestPrice={bestEth}
-          btcPrice={btcPrice}
-        />
-        <TableComponent
-          name="Litecoin"
-          id="LTC"
-          data={ltcHistory}
-          bestPrice={bestLtc}
-          btcPrice={btcPrice}
-        />
-        <TableComponent
-          name="Dash"
-          id="DASH"
-          data={dashHistory}
-          bestPrice={bestDash}
-          btcPrice={btcPrice}
-        />
+        <h2 className="reportTitle">
+          View the most recent altcoin values (in btc) as reported from CoinCap. Lowest
+          rates highlighted below.
+        </h2>
+        <div className="reportsDash">
+          <TableComponent
+            name="Ethereum"
+            id="ETH"
+            data={ethHistory}
+            bestPrice={bestEth}
+            btcPrice={btcPrice}
+          />
+          <TableComponent
+            name="Litecoin"
+            id="LTC"
+            data={ltcHistory}
+            bestPrice={bestLtc}
+            btcPrice={btcPrice}
+          />
+          <TableComponent
+            name="Dash"
+            id="DASH"
+            data={dashHistory}
+            bestPrice={bestDash}
+            btcPrice={btcPrice}
+          />
+        </div>
       </div>
     ) : (
-      <h1>Data not yet available</h1>
+      <h1>Data Loading...</h1>
     );
   }
 }

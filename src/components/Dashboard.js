@@ -23,10 +23,10 @@ class DashboardComponent extends Component {
       <div>
         <div>
           <Link to="/report">
-            <button className="linkToReport">30 Minute Report</button>
+            <button className="linkToReport">To 30 Minute Report</button>
           </Link>
         </div>
-        <div className="dash">
+        <div className="dashBoard">
           <ExchangeComponent
             id="coincapExchange"
             exchangeName="Coincap"
