@@ -17,6 +17,7 @@ export default (state = defaultState, { type, data }) => {
         ethHistory: data.ethData,
         ltcHistory: data.ltcData,
         dashHistory: data.dashData,
+        btcPrice: data.btcPrice,
         bestEth: data.bestEth,
         bestLtc: data.bestLtc,
         bestDash: data.bestDash

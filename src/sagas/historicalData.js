@@ -17,16 +17,18 @@ function evalBestRate(array) {
 //HISTORICAL DATA from COINCAP
 function* requestHistoricalData() {
   try {
-    const [ethData, ltcData, dashData] = yield all([
+    const [ethData, ltcData, dashData, btcRate] = yield all([
       call(fetchData, "http://coincap.io/history/1day/ETH"),
       call(fetchData, "http://coincap.io/history/1day/LTC"),
-      call(fetchData, "http://coincap.io/history/1day/DASH")
+      call(fetchData, "http://coincap.io/history/1day/DASH"),
+      call(fetchData, "http://coincap.io/page/BTC")
     ]);
     yield put(
       actions.receiveHistoricalData({
         ethData: ethData.price,
         ltcData: ltcData.price,
         dashData: dashData.price,
+        btcPrice: btcRate.price,
         bestEth: evalBestRate(ethData.price),
         bestLtc: evalBestRate(ltcData.price),
         bestDash: evalBestRate(dashData.price)

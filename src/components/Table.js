@@ -16,6 +16,11 @@ class TableComponent extends Component {
       .reverse();
   }
 
+  priceInBtc(price) {
+    let btcPrice = price / this.props.btcPrice;
+    return btcPrice.toFixed(5);
+  }
+
   render() {
     let formattedData = this.formatData();
     return (
@@ -28,15 +33,15 @@ class TableComponent extends Component {
               </th>
             </tr>
             <tr>
-              <td className="dateCell">Date</td>
-              <td className="priceCell">Price</td>
+              <td className="headerCell">Date</td>
+              <td className="headerCell">Price</td>
             </tr>
           </thead>
           <tbody>
             {formattedData.map(item => (
               <tr key={item}>
-                <td>{item[0]}</td>
-                <td>{item[1]}</td>
+                <td className="dateCell">{item[0]}</td>
+                <td className="priceCell">₿ {this.priceInBtc(item[1])}</td>
               </tr>
             ))}
           </tbody>

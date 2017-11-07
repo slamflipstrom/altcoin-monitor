@@ -13,7 +13,7 @@ class ReportComponent extends Component {
   }
 
   render() {
-    const { ethHistory, ltcHistory, dashHistory } = this.props.historicalData;
+    const { ethHistory, ltcHistory, dashHistory, btcPrice } = this.props.historicalData;
     let prev30Eth = [];
     let prev30Ltc = [];
     let prev30Dash = [];
@@ -32,9 +32,9 @@ class ReportComponent extends Component {
         <Link to="/">
           <button className="linkHome">Home</button>
         </Link>
-        <TableComponent name="Ethereum" id="ETH" data={prev30Eth} />
-        <TableComponent name="Litecoin" id="LTC" data={prev30Ltc} />
-        <TableComponent name="Dash" id="DASH" data={prev30Dash} />
+        <TableComponent name="Ethereum" id="ETH" data={prev30Eth} btcPrice={btcPrice} />
+        <TableComponent name="Litecoin" id="LTC" data={prev30Ltc} btcPrice={btcPrice} />
+        <TableComponent name="Dash" id="DASH" data={prev30Dash} btcPrice={btcPrice} />
       </div>
     ) : (
       <h1>Data not yet available</h1>
