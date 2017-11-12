@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -14,31 +13,51 @@ class ReportComponent extends Component {
   }
 
   render() {
-    const { ethHistory, ltcHistory, dashHistory } = this.props.historicalData;
-    let prev30Eth = [];
-    let prev30Ltc = [];
-    let prev30Dash = [];
-    if (typeof ethHistory !== "undefined") {
-      prev30Eth = ethHistory.slice(Math.max(ethHistory.length - 30, 1));
-    }
-    if (typeof ltcHistory !== "undefined") {
-      prev30Ltc = ltcHistory.slice(Math.max(ltcHistory.length - 30, 1));
-    }
-    if (typeof dashHistory !== "undefined") {
-      prev30Dash = dashHistory.slice(Math.max(dashHistory.length - 30, 1));
-    }
+    const {
+      ethHistory,
+      ltcHistory,
+      dashHistory,
+      bestEth,
+      bestLtc,
+      bestDash,
+      btcPrice
+    } = this.props.historicalData;
 
-    return prev30Eth && ltcHistory && dashHistory ? (
-      <div className="report">
-        <Link className="link" to={"/"}>
-          Back
+    return ethHistory && ltcHistory && dashHistory ? (
+      <div className="reportPage">
+        <Link to="/">
+          <button className="linkHome">Back to Dashboard</button>
         </Link>
-        <TableComponent name="Ethereum" id="ETH" data={prev30Eth} />
-        <TableComponent name="Litecoin" id="LTC" data={prev30Ltc} />
-        <TableComponent name="Dash" id="DASH" data={prev30Dash} />
+        <h2 className="reportTitle">
+          View the most recent altcoin values (in btc) as reported from CoinCap. Lowest
+          rates highlighted below.
+        </h2>
+        <div className="reportsDash">
+          <TableComponent
+            name="Ethereum"
+            id="ETH"
+            data={ethHistory}
+            bestPrice={bestEth}
+            btcPrice={btcPrice}
+          />
+          <TableComponent
+            name="Litecoin"
+            id="LTC"
+            data={ltcHistory}
+            bestPrice={bestLtc}
+            btcPrice={btcPrice}
+          />
+          <TableComponent
+            name="Dash"
+            id="DASH"
+            data={dashHistory}
+            bestPrice={bestDash}
+            btcPrice={btcPrice}
+          />
+        </div>
       </div>
     ) : (
-      <h1>Data not yet available</h1>
+      <h1>Data Loading...</h1>
     );
   }
 }

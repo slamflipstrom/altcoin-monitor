@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import * as actions from "../actions/actions";
 import ExchangeComponent from "./Exchange";
@@ -22,31 +22,33 @@ class DashboardComponent extends Component {
     return coincap && exmo && bleutrade ? (
       <div>
         <div>
-          <Link className="linkToReport" to={"/report"}>
-            <button>30 Minute Report</button>
+          <Link to="/report">
+            <button className="linkToReport">To 30 Minute Report</button>
           </Link>
         </div>
-        <ExchangeComponent
-          id="coincapExchange"
-          exchangeName="Coincap"
-          ethData={coincap.ethData}
-          ltcData={coincap.ltcData}
-          dashData={coincap.dashData}
-        />
-        <ExchangeComponent
-          id="exmoExchange"
-          exchangeName="Exmo"
-          ethData={exmo.ethData}
-          ltcData={exmo.ltcData}
-          dashData={exmo.dashData}
-        />
-        <ExchangeComponent
-          id="bleutradeExchange"
-          exchangeName="Bleutrade"
-          ethData={bleutrade.ethData}
-          ltcData={bleutrade.ltcData}
-          dashData={bleutrade.dashData}
-        />
+        <div className="dashBoard">
+          <ExchangeComponent
+            id="coincapExchange"
+            exchangeName="Coincap"
+            ethValue={coincap.ethValue}
+            ltcValue={coincap.ltcValue}
+            dashValue={coincap.dashValue}
+          />
+          <ExchangeComponent
+            id="exmoExchange"
+            exchangeName="Exmo"
+            ethValue={exmo.ethValue}
+            ltcValue={exmo.ltcValue}
+            dashValue={exmo.dashValue}
+          />
+          <ExchangeComponent
+            id="bleutradeExchange"
+            exchangeName="Bleutrade"
+            ethValue={bleutrade.ethValue}
+            ltcValue={bleutrade.ltcValue}
+            dashValue={bleutrade.dashValue}
+          />
+        </div>
       </div>
     ) : (
       <div className="loading">
@@ -55,6 +57,12 @@ class DashboardComponent extends Component {
     );
   }
 }
+
+DashboardComponent.propTypes = {
+  coincap: PropTypes.string,
+  exmo: PropTypes.string,
+  bleutrade: PropTypes.string
+};
 
 const mapStateToProps = state => {
   return {
@@ -68,6 +76,4 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(actions, dispatch)
   };
 };
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(DashboardComponent)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardComponent);

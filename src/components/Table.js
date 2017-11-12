@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import * as moment from "moment";
 
 class TableComponent extends Component {
@@ -15,6 +16,17 @@ class TableComponent extends Component {
       .reverse();
   }
 
+  priceInBtc(price) {
+    let btcPrice = price / this.props.btcPrice;
+    return btcPrice.toFixed(5);
+  }
+
+  findBestValue(price) {
+    if (price === this.props.bestPrice) {
+      return "bestValue";
+    }
+  }
+
   render() {
     let formattedData = this.formatData();
     return (
@@ -27,15 +39,15 @@ class TableComponent extends Component {
               </th>
             </tr>
             <tr>
-              <td className="dateCell">Date</td>
-              <td className="priceCell">Price</td>
+              <td className="headerCell">Date</td>
+              <td className="headerCell">Price</td>
             </tr>
           </thead>
           <tbody>
             {formattedData.map(item => (
-              <tr key={item}>
-                <td>{item[0]}</td>
-                <td>{item[1]}</td>
+              <tr key={item} className={this.findBestValue(item[1], this.props.name)}>
+                <td className="dateCell">{item[0]}</td>
+                <td className="priceCell">₿ {this.priceInBtc(item[1])}</td>
               </tr>
             ))}
           </tbody>
@@ -44,4 +56,11 @@ class TableComponent extends Component {
     );
   }
 }
+
+TableComponent.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.array),
+  id: PropTypes.string,
+  name: PropTypes.string
+};
+
 export default TableComponent;

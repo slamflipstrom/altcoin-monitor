@@ -14,72 +14,10 @@ function formatPriceToNum(price) {
 }
 
 function evalBestRate(object) {
-  var lowValue = Object.values(object).reduce(function(a, b, idx) {
+  let lowValue = Object.values(object).reduce(function(a, b) {
     return Math.min(a, b);
   });
   return formatPrice(lowValue);
-}
-
-//COINCAP
-function* requestCoincapAPIData() {
-  try {
-    const [ethData, ltcData, dashData] = yield all([
-      call(fetchData, "http://coincap.io/page/ETH"),
-      call(fetchData, "http://coincap.io/page/LTC"),
-      call(fetchData, "http://coincap.io/page/DASH")
-    ]);
-    yield put(
-      actions.receiveCoincapAPIData({
-        ethData: formatPrice(ethData.price_btc),
-        ltcData: formatPrice(ltcData.price_btc),
-        dashData: formatPrice(dashData.price_btc)
-      })
-    );
-    return { ethData, ltcData, dashData };
-  } catch (error) {
-    console.log(error);
-    yield put({ type: actions.COINCAP_REQUEST_FAILURE, error });
-  }
-}
-
-//EXMO
-function* requestExmoAPIData() {
-  try {
-    const data = yield call(fetchData, "https://api.exmo.com/v1/ticker/");
-    yield put(
-      actions.receiveExmoAPIData({
-        ethData: formatPrice(data.ETH_BTC.buy_price),
-        ltcData: formatPrice(data.LTC_BTC.buy_price),
-        dashData: formatPrice(data.DASH_BTC.buy_price)
-      })
-    );
-    return data;
-  } catch (error) {
-    console.log(error);
-    yield put({ type: actions.EXMO_REQUEST_FAILURE, error });
-  }
-}
-
-//Bluetrade
-function* requestBleutradeAPIData() {
-  try {
-    const [ethData, ltcData, dashData] = yield all([
-      call(fetchData, "https://bleutrade.com/api/v2/public/getticker?market=ETH_BTC"),
-      call(fetchData, "https://bleutrade.com/api/v2/public/getticker?market=LTC_BTC"),
-      call(fetchData, "https://bleutrade.com/api/v2/public/getticker?market=DASH_BTC")
-    ]);
-    yield put(
-      actions.receiveBleutradeAPIData({
-        ethData: formatPrice(ethData.result[0].Last),
-        ltcData: formatPrice(ltcData.result[0].Last),
-        dashData: formatPrice(dashData.result[0].Last)
-      })
-    );
-    return { ethData, ltcData, dashData };
-  } catch (error) {
-    console.log(error);
-    yield put({ type: actions.BLEUTRADE_REQUEST_FAILURE, error });
-  }
 }
 
 function* requestAllAPIData() {
@@ -125,6 +63,68 @@ function* requestAllAPIData() {
     );
   } catch (error) {
     console.log(error);
+  }
+}
+
+//COINCAP
+function* requestCoincapAPIData() {
+  try {
+    const [ethData, ltcData, dashData] = yield all([
+      call(fetchData, "http://coincap.io/page/ETH"),
+      call(fetchData, "http://coincap.io/page/LTC"),
+      call(fetchData, "http://coincap.io/page/DASH")
+    ]);
+    yield put(
+      actions.receiveCoincapAPIData({
+        ethValue: formatPrice(ethData.price_btc),
+        ltcValue: formatPrice(ltcData.price_btc),
+        dashValue: formatPrice(dashData.price_btc)
+      })
+    );
+    return { ethData, ltcData, dashData };
+  } catch (error) {
+    console.log(error);
+    yield put({ type: actions.COINCAP_REQUEST_FAILURE, error });
+  }
+}
+
+//EXMO
+function* requestExmoAPIData() {
+  try {
+    const data = yield call(fetchData, "https://api.exmo.com/v1/ticker/");
+    yield put(
+      actions.receiveExmoAPIData({
+        ethValue: formatPrice(data.ETH_BTC.buy_price),
+        ltcValue: formatPrice(data.LTC_BTC.buy_price),
+        dashValue: formatPrice(data.DASH_BTC.buy_price)
+      })
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+    yield put({ type: actions.EXMO_REQUEST_FAILURE, error });
+  }
+}
+
+//Bluetrade
+function* requestBleutradeAPIData() {
+  try {
+    const [ethData, ltcData, dashData] = yield all([
+      call(fetchData, "https://bleutrade.com/api/v2/public/getticker?market=ETH_BTC"),
+      call(fetchData, "https://bleutrade.com/api/v2/public/getticker?market=LTC_BTC"),
+      call(fetchData, "https://bleutrade.com/api/v2/public/getticker?market=DASH_BTC")
+    ]);
+    yield put(
+      actions.receiveBleutradeAPIData({
+        ethValue: formatPrice(ethData.result[0].Last),
+        ltcValue: formatPrice(ltcData.result[0].Last),
+        dashValue: formatPrice(dashData.result[0].Last)
+      })
+    );
+    return { ethData, ltcData, dashData };
+  } catch (error) {
+    console.log(error);
+    yield put({ type: actions.BLEUTRADE_REQUEST_FAILURE, error });
   }
 }
 
