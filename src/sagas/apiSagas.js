@@ -14,7 +14,7 @@ function formatPriceToNum(price) {
 }
 
 function evalBestRate(object) {
-  let lowValue = Object.values(object).reduce(function(a, b, idx) {
+  let lowValue = Object.values(object).reduce(function(a, b) {
     return Math.min(a, b);
   });
   return formatPrice(lowValue);
