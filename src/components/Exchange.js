@@ -1,21 +1,37 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import * as actions from "../actions/actions";
 
 import PriceCardComponent from "./PriceCard";
 
 class ExchangeComponent extends Component {
+  componentDidMount() {
+    this.props.actions.requestAllAPIData();
+    this.interval = setInterval(() => this.setState({ time: Date.now() }), 60000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
   render() {
-    const { ethValue, ltcValue, dashValue } = this.props;
-    return ethValue && ltcValue && dashValue ? (
-      <div className="exchange">
-        <h1 className="exchangeTitle">{this.props.exchangeName}</h1>
-        <PriceCardComponent displayName="Ethereum" id="ETH" btcValue={ethValue} />
-        <PriceCardComponent displayName="Litecoin" id="LTC" btcValue={ltcValue} />
-        <PriceCardComponent displayName="Dash" id="DASH" btcValue={dashValue} />
-      </div>
-    ) : (
-      <h1>Data Loading...</h1>
-    );
+    const exchangeData = this.props.exchangeData;
+
+    // const data = for (exchange in exchangeData) {
+    //   (
+    //   <div className="exchange">
+    //   <h1 className="exchangeTitle">{this.props.exchangeName}</h1>
+    //   <PriceCardComponent displayName="Ethereum" id="ETH" btcValue={exm.ethValue} />
+    //   <PriceCardComponent displayName="Litecoin" id="LTC" btcValue={ltcValue} />
+    //   <PriceCardComponent displayName="Dash" id="DASH" btcValue={dashValue} />
+    // </div>
+    // )
+    // }
+    const data = <h1>Hi</h1>;
+
+    return data;
   }
 }
 
@@ -25,4 +41,17 @@ ExchangeComponent.propTypes = {
   dashValue: PropTypes.string
 };
 
-export default ExchangeComponent;
+const mapStateToProps = state => {
+  return {
+    exchangeData: state.exchangeData,
+    currencyValues: state.currencyValues
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExchangeComponent);
