@@ -75,11 +75,11 @@ function* requestCoincapAPIData() {
       call(fetchData, "http://coincap.io/page/DASH")
     ]);
     yield put(
-      actions.receiveCoincapAPIData({
-        ethValue: formatPrice(ethData.price_btc),
-        ltcValue: formatPrice(ltcData.price_btc),
-        dashValue: formatPrice(dashData.price_btc)
-      })
+      actions.receiveCoincapAPIData([
+        formatPrice(ethData.price_btc),
+        formatPrice(ltcData.price_btc),
+        formatPrice(dashData.price_btc)
+      ])
     );
     return { ethData, ltcData, dashData };
   } catch (error) {
