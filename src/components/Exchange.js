@@ -19,18 +19,15 @@ class ExchangeComponent extends Component {
   render() {
     const exchangeData = this.props.exchangeData;
 
-    // const data = for (exchange in exchangeData) {
-    //   (
-    //   <div className="exchange">
-    //   <h1 className="exchangeTitle">{this.props.exchangeName}</h1>
-    //   <PriceCardComponent displayName="Ethereum" id="ETH" btcValue={exm.ethValue} />
-    //   <PriceCardComponent displayName="Litecoin" id="LTC" btcValue={ltcValue} />
-    //   <PriceCardComponent displayName="Dash" id="DASH" btcValue={dashValue} />
-    // </div>
-    // )
-    // }
-    const data = <h1>Hi</h1>;
-
+    const data = Object.keys(exchangeData).map(ex => {
+      <div className="exchange">
+        <h1 className="exchangeTitle">{this.props.exchangeName}</h1>
+        <PriceCardComponent displayName="Ethereum" id="ETH" btcValue={ex.ethValue} />
+        <PriceCardComponent displayName="Litecoin" id="LTC" btcValue={ex.ltcValue} />
+        <PriceCardComponent displayName="Dash" id="DASH" btcValue={ex.dashValue} />
+      </div>;
+    });
+    // const data = <h1>Hi</h1>;
     return data;
   }
 }
